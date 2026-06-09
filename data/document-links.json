@@ -1,0 +1,86 @@
+[
+  {
+    "id": "dps_complaint_to_gibdd_chief",
+    "where_to_text": "Жалоба руководителю подразделения Госавтоинспекции на действия сотрудника",
+    "template_id": "dps_gibdd_chief_complaint_v1",
+    "route": "/documents/dps_gibdd_chief_complaint_v1"
+  },
+  {
+    "id": "dps_complaint_to_prosecutor",
+    "where_to_text": "Жалоба в прокуратуру на действия сотрудников Госавтоинспекции",
+    "template_id": "dps_prosecutor_complaint_v1",
+    "route": "/documents/dps_prosecutor_complaint_v1"
+  },
+  {
+    "id": "dps_koap_resolution_appeal",
+    "where_to_text": "Жалоба на постановление по делу об административном правонарушении",
+    "template_id": "dps_koap_resolution_appeal_v1",
+    "route": "/documents/dps_koap_resolution_appeal_v1"
+  },
+  {
+    "id": "dps_accident_explanation",
+    "where_to_text": "Объяснение по обстоятельствам ДТП для Госавтоинспекции",
+    "template_id": "dps_accident_explanation_v1",
+    "route": "/documents/dps_accident_explanation_v1"
+  },
+  {
+    "id": "dps_osago_claim",
+    "where_to_text": "Заявление о страховом возмещении по ОСАГО",
+    "template_id": "dps_osago_claim_v1",
+    "route": "/documents/dps_osago_claim_v1"
+  },
+  {
+    "id": "dps_ambulance_call_note",
+    "where_to_text": "Сведения о вызове скорой помощи после ДТП",
+    "template_id": "dps_ambulance_call_note_v1",
+    "route": "/documents/dps_ambulance_call_note_v1",
+    "aliases": [
+      "Памятка по фиксации вызова скорой помощи"
+    ]
+  },
+  {
+    "id": "pps_complaint_to_police_chief",
+    "where_to_text": "Жалоба начальнику отдела полиции на действия сотрудников полиции",
+    "template_id": "pps_police_chief_complaint_v1",
+    "route": "/documents/pps_police_chief_complaint_v1"
+  },
+  {
+    "id": "pps_complaint_to_prosecutor",
+    "where_to_text": "Жалоба в прокуратуру на действия сотрудников полиции",
+    "template_id": "pps_prosecutor_complaint_v1",
+    "route": "/documents/pps_prosecutor_complaint_v1"
+  },
+  {
+    "id": "pps_koap_resolution_appeal",
+    "where_to_text": "Жалоба на постановление по делу об административном правонарушении",
+    "template_id": "pps_koap_resolution_appeal_v1",
+    "route": "/documents/pps_koap_resolution_appeal_v1"
+  },
+  {
+    "id": "pps_phone_return_motion",
+    "where_to_text": "Заявление / ходатайство о возврате телефона",
+    "template_id": "pps_phone_return_motion_v1",
+    "route": "/documents/pps_phone_return_motion_v1",
+    "aliases": [
+      "Ходатайство о возврате изъятого телефона"
+    ]
+  },
+  {
+    "id": "pps_property_return_motion",
+    "where_to_text": "Заявление / ходатайство о возврате изъятого имущества",
+    "template_id": "pps_property_return_motion_v1",
+    "route": "/documents/pps_property_return_motion_v1",
+    "aliases": [
+      "Ходатайство о возврате изъятого имущества"
+    ]
+  },
+  {
+    "id": "pps_sledcom_crime_report",
+    "where_to_text": "Заявление о преступлении в отношении действий сотрудников полиции",
+    "template_id": "pps_sledcom_crime_report_v1",
+    "route": "/documents/pps_sledcom_crime_report_v1",
+    "aliases": [
+      "Заявление о преступлении в Следственный комитет Российской Федерации"
+    ]
+  }
+]

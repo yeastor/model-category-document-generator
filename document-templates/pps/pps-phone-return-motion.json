@@ -1,0 +1,98 @@
+{
+  "id": "pps_phone_return_motion_v1",
+  "category": "pps",
+  "link_id": "pps_phone_return_motion",
+  "name": "Заявление / ходатайство о возврате телефона",
+  "description": "Для ситуации, когда телефон изъяли, удерживают, требуют разблокировку, доступ к содержимому или удаление данных.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "Должностному лицу / в орган, у которого находится телефон"
+    },
+    {
+      "id": "phone_return_recipient"
+    },
+    {
+      "id": "police_unit_name"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "officer_name"
+    },
+    {
+      "id": "seizure_protocol_number"
+    },
+    {
+      "id": "seized_item_description"
+    },
+    {
+      "id": "phone_access_action"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Заявление / ходатайство о возврате телефона",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\nпаспорт: {{passport}}\n\nЗаявление / ходатайство о возврате телефона\n\nПрошу вернуть принадлежащий мне телефон либо предоставить письменное решение о причинах его дальнейшего удержания.\n{{phone_return_recipient_block}}\n{{police_unit_name_block}}\n\nДанные телефона:\nМодель / устройство: {{mobile_device_model}}\nIMEI / серийный номер: {{mobile_device_imei}}\n{{seized_item_description_block}}\n\nСведения об изъятии или удержании:\n{{incident_date}} примерно в {{incident_time}} телефон был изъят, удержан или к нему требовали доступ.\n{{location_block}}\n{{officer_name_block}}\n{{seizure_protocol_number_block}}\n{{phone_access_action_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\n{{free_text_appendix_notice}}\n\nПрошу вернуть телефон, выдать копии документов об изъятии или удержании, а при отказе указать правовое основание и срок дальнейшего удержания.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "passport_series",
+    "passport_number",
+    "passport_issued_by",
+    "passport_issued_date",
+    "passport_department_code",
+    "mobile_device_model",
+    "mobile_device_imei"
+  ]
+}

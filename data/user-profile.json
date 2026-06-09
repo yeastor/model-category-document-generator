@@ -1,0 +1,21 @@
+{
+  "first_name": "Иван",
+  "last_name": "Иванов",
+  "middle_name": "Иванович",
+  "birth_date": "1990-01-15",
+  "address": "г. Москва, ул. Примерная, д. 1, кв. 1",
+  "phone": "+7 900 000-00-00",
+  "email": "ivanov@example.ru",
+  "passport_series": "4500",
+  "passport_number": "000000",
+  "passport_issued_by": "ОМВД России по г. Москве",
+  "passport_issued_date": "2015-01-20",
+  "passport_department_code": "770-001",
+  "driver_license": "77 00 000000",
+  "vehicle_plate": "А000АА777",
+  "vehicle_model": "Kia Rio",
+  "vehicle_sts": "77 00 000000",
+  "osago_policy": "XXX 0000000000",
+  "mobile_device_model": "iPhone 15",
+  "mobile_device_imei": "35 000000 000000 0"
+}

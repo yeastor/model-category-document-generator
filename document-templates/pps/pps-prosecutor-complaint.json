@@ -1,0 +1,111 @@
+{
+  "id": "pps_prosecutor_complaint_v1",
+  "category": "pps",
+  "link_id": "pps_complaint_to_prosecutor",
+  "name": "Жалоба в прокуратуру на действия сотрудников полиции",
+  "description": "Для случаев, когда требуется прокурорская проверка: не разъяснили основания, давили, доставили, досмотрели, удерживали документы, телефон или вещи.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "В прокуратуру"
+    },
+    {
+      "id": "police_unit_name"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "appeal_reason"
+    },
+    {
+      "id": "officer_name"
+    },
+    {
+      "id": "officer_position"
+    },
+    {
+      "id": "badge_number"
+    },
+    {
+      "id": "delivery_place"
+    },
+    {
+      "id": "delivery_document_number"
+    },
+    {
+      "id": "search_protocol_number"
+    },
+    {
+      "id": "seizure_protocol_number"
+    },
+    {
+      "id": "seized_item_description"
+    },
+    {
+      "id": "phone_access_action"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Жалоба в прокуратуру на действия сотрудников полиции",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\nпаспорт: {{passport}}\n\nЖалоба в прокуратуру на действия сотрудников полиции\n\n{{incident_date}} примерно в {{incident_time}} сотрудники полиции совершили действия, которые, по моему мнению, требуют прокурорской проверки.\n{{location_block}}\n{{police_unit_name_block}}\n{{appeal_reason_block}}\n{{officer_name_block}}\n{{officer_position_block}}\n{{badge_number_block}}\n{{delivery_place_block}}\n{{delivery_document_number_block}}\n{{search_protocol_number_block}}\n{{seizure_protocol_number_block}}\n{{seized_item_description_block}}\n{{phone_access_action_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\n{{free_text_appendix_notice}}\n\nПрошу провести проверку изложенных обстоятельств, дать оценку действиям сотрудников, принять меры реагирования при наличии оснований и сообщить мне о результатах проверки в установленный законом срок.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "passport_series",
+    "passport_number",
+    "passport_issued_by",
+    "passport_issued_date",
+    "passport_department_code"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "dps_ambulance_call_note_v1",
+  "category": "dps",
+  "link_id": "dps_ambulance_call_note",
+  "name": "Сведения о вызове скорой помощи после ДТП",
+  "description": "Для фиксации сведений о вызове скорой помощи, медицинской помощи и подтверждающих материалах после ДТП.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "Для личного хранения и приложения к материалам ДТП"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "ambulance_call_time"
+    },
+    {
+      "id": "ambulance_call_number"
+    },
+    {
+      "id": "medical_institution"
+    },
+    {
+      "id": "accident_participants"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "damage_description"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Сведения о вызове скорой помощи после ДТП",
+  "body": "{{recipient}}\n\nСведения о вызове скорой помощи после ДТП\n\nЗаявитель: {{full_name}}\nтелефон: {{phone}}\nадрес: {{address}}\n\nСобытие:\n{{incident_date}} примерно в {{incident_time}} произошло ДТП или иное событие, потребовавшее медицинской помощи.\n{{location_block}}\nВремя вызова скорой помощи: {{ambulance_call_time}}\n{{ambulance_call_number_block}}\n{{medical_institution_block}}\n{{accident_participants_block}}\n{{witnesses_block}}\n\nДанные автомобиля:\nАвтомобиль: {{vehicle_model}}, госномер {{vehicle_plate}}\nСТС: {{vehicle_sts}}\n\nЧто важно сохранить:\n1. Номер вызова скорой помощи и время обращения.\n2. ФИО или данные медицинских работников, если они известны.\n3. Медицинские документы, справки, выписки и направления.\n4. Фото, видео, контакты свидетелей и иные подтверждения.\n5. Копии материалов ДТП и сведения о подразделении Госавтоинспекции.\n\n{{free_text_appendix_notice}}\n\n{{attachments_block}}\n\nДата формирования: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "vehicle_model",
+    "vehicle_plate",
+    "vehicle_sts"
+  ]
+}

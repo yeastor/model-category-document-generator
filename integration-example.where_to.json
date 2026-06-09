@@ -1,0 +1,20 @@
+{
+  "where_to": [
+    {
+      "label": "Жалоба начальнику подразделения полиции",
+      "document_link": {
+        "id": "complaint_to_police_chief",
+        "template_id": "pps_police_chief_complaint_v1",
+        "route": "/documents/pps_police_chief_complaint_v1"
+      }
+    },
+    {
+      "label": "Прокуратура, если причины и основания не объясняют или давят без оформления",
+      "document_link": {
+        "id": "complaint_to_prosecutor",
+        "template_id": "pps_prosecutor_complaint_v1",
+        "route": "/documents/pps_prosecutor_complaint_v1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "has_resolution_copy",
+    "label": "Копия постановления",
+    "type": "attachment",
+    "input_type": "checkbox",
+    "required": false,
+    "importance": "optional",
+    "attachment_text": "Копия постановления"
+  },
+  {
+    "id": "has_protocol_copy",
+    "label": "Копия протокола",
+    "type": "attachment",
+    "input_type": "checkbox",
+    "required": false,
+    "importance": "optional",
+    "attachment_text": "Копия протокола"
+  },
+  {
+    "id": "has_photo_video",
+    "label": "Фото- и видеоматериалы",
+    "type": "attachment",
+    "input_type": "checkbox",
+    "required": false,
+    "importance": "optional",
+    "attachment_text": "Фото- и видеоматериалы"
+  },
+  {
+    "id": "has_audio",
+    "label": "Аудиозапись",
+    "type": "attachment",
+    "input_type": "checkbox",
+    "required": false,
+    "importance": "optional",
+    "attachment_text": "Аудиозапись"
+  },
+  {
+    "id": "has_witnesses",
+    "label": "Сведения о свидетелях",
+    "type": "attachment",
+    "input_type": "checkbox",
+    "required": false,
+    "importance": "optional",
+    "attachment_text": "Сведения о свидетелях"
+  },
+  {
+    "id": "has_screenshots",
+    "label": "Скриншоты",
+    "type": "attachment",
+    "input_type": "checkbox",
+    "required": false,
+    "importance": "optional",
+    "attachment_text": "Скриншоты"
+  },
+  {
+    "id": "other_attachments",
+    "label": "Иные приложения",
+    "type": "attachment",
+    "input_type": "checkbox_textarea",
+    "required": false,
+    "importance": "optional",
+    "placeholder": "Перечислите другие документы или материалы"
+  }
+]

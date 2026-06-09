@@ -1,0 +1,104 @@
+{
+  "id": "dps_prosecutor_complaint_v1",
+  "category": "dps",
+  "link_id": "dps_complaint_to_prosecutor",
+  "name": "Жалоба в прокуратуру на действия сотрудников Госавтоинспекции",
+  "description": "Для случаев, когда действия сотрудников Госавтоинспекции требуют прокурорской проверки: давление, отсутствие разъяснений, нарушение порядка досмотра, освидетельствования или оформления материалов.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "В прокуратуру"
+    },
+    {
+      "id": "dps_unit_name"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "stop_reason"
+    },
+    {
+      "id": "officer_name"
+    },
+    {
+      "id": "officer_position"
+    },
+    {
+      "id": "badge_number"
+    },
+    {
+      "id": "protocol_number"
+    },
+    {
+      "id": "resolution_number"
+    },
+    {
+      "id": "alcohol_test_device"
+    },
+    {
+      "id": "alcohol_test_result"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Жалоба в прокуратуру на действия сотрудников Госавтоинспекции",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\n\nЖалоба в прокуратуру на действия сотрудников Госавтоинспекции\n\n{{incident_date}} примерно в {{incident_time}} сотрудники Госавтоинспекции совершили действия, которые, по моему мнению, требуют прокурорской проверки.\n{{location_block}}\n{{dps_unit_name_block}}\n{{stop_reason_block}}\n{{officer_name_block}}\n{{officer_position_block}}\n{{badge_number_block}}\n{{protocol_number_block}}\n{{resolution_number_block}}\n{{alcohol_test_device_block}}\n{{alcohol_test_result_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\nДанные водителя и автомобиля:\nВодительское удостоверение: {{driver_license}}\nАвтомобиль: {{vehicle_model}}, госномер {{vehicle_plate}}\nСТС: {{vehicle_sts}}\n\n{{free_text_appendix_notice}}\n\nПрошу провести проверку изложенных обстоятельств, дать оценку действиям сотрудников, принять меры реагирования при наличии оснований и сообщить мне о результатах проверки в установленный законом срок.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "driver_license",
+    "vehicle_model",
+    "vehicle_plate",
+    "vehicle_sts"
+  ]
+}

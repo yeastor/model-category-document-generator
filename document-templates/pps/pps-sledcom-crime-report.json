@@ -1,0 +1,111 @@
+{
+  "id": "pps_sledcom_crime_report_v1",
+  "category": "pps",
+  "link_id": "pps_sledcom_crime_report",
+  "name": "Заявление о преступлении в отношении действий сотрудников полиции",
+  "description": "Для ситуаций с признаками преступления: незаконное насилие, превышение полномочий, угрозы, принуждение, фабрикация материалов или иные действия, требующие проверки СК.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "В Следственный комитет Российской Федерации"
+    },
+    {
+      "id": "crime_report_basis"
+    },
+    {
+      "id": "police_unit_name"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "officer_name"
+    },
+    {
+      "id": "officer_position"
+    },
+    {
+      "id": "badge_number"
+    },
+    {
+      "id": "delivery_place"
+    },
+    {
+      "id": "delivery_document_number"
+    },
+    {
+      "id": "search_protocol_number"
+    },
+    {
+      "id": "seizure_protocol_number"
+    },
+    {
+      "id": "seized_item_description"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "damage_description"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Заявление о преступлении в отношении действий сотрудников полиции",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\nпаспорт: {{passport}}\n\nЗаявление о преступлении в отношении действий сотрудников полиции\n\nПрошу провести проверку по изложенным обстоятельствам и дать им уголовно-правовую оценку.\n{{crime_report_basis_block}}\n{{police_unit_name_block}}\n\nСведения о событии:\n{{incident_date}} примерно в {{incident_time}} произошли действия сотрудников полиции, которые, по моему мнению, могут содержать признаки преступления.\n{{location_block}}\n{{officer_name_block}}\n{{officer_position_block}}\n{{badge_number_block}}\n{{delivery_place_block}}\n{{delivery_document_number_block}}\n{{search_protocol_number_block}}\n{{seizure_protocol_number_block}}\n{{seized_item_description_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\n{{free_text_appendix_notice}}\n\nПрошу зарегистрировать сообщение, провести проверку в установленном порядке, принять процессуальное решение и уведомить меня о результате.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "passport_series",
+    "passport_number",
+    "passport_issued_by",
+    "passport_issued_date",
+    "passport_department_code"
+  ]
+}

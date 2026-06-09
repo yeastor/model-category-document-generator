@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Генератор юридических документов</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="appbar">
+      <button class="icon-button" type="button" aria-label="Назад">‹</button>
+      <h1>Заполнить данные</h1>
+      <button class="icon-button" type="button" aria-label="Поиск">⌕</button>
+    </header>
+
+    <form id="generatorForm" class="workspace">
+      <section class="panel document-picker">
+        <div class="section-head">
+          <h2>Документ</h2>
+          <span id="status">Загрузка</span>
+        </div>
+        <label>
+          Шаблон
+          <select id="templateSelect" name="templateId"></select>
+        </label>
+        <p id="templateDescription" class="description"></p>
+      </section>
+
+      <section class="form-grid">
+        <section class="panel">
+          <div class="section-head">
+            <h2>Основные данные</h2>
+          </div>
+          <div id="profileFields" class="fields"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <h2 id="templateTitle">Поля документа</h2>
+          </div>
+          <div id="documentFields" class="fields"></div>
+
+          <div class="generation">
+            <div class="control">
+              <span>Формат</span>
+              <label class="radio"><input type="radio" name="format" value="pdf" checked> PDF</label>
+              <label class="radio"><input type="radio" name="format" value="docx"> DOCX</label>
+              <label class="radio"><input type="radio" name="format" value="txt"> TXT</label>
+            </div>
+            <div class="control">
+              <span>Обработка текста</span>
+              <label class="radio"><input type="radio" name="aiMode" value="basic" checked> Без AI</label>
+              <label class="radio"><input type="radio" name="aiMode" value="legal"> Юридический тон</label>
+            </div>
+            <button type="submit">Сформировать документ</button>
+            <div id="result" class="result"></div>
+          </div>
+        </section>
+      </section>
+    </form>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

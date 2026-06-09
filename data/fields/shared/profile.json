@@ -1,0 +1,173 @@
+[
+  {
+    "id": "last_name",
+    "label": "Фамилия",
+    "type": "profile",
+    "input_type": "text",
+    "required": true,
+    "placeholder": "Введите фамилию",
+    "importance": "required"
+  },
+  {
+    "id": "first_name",
+    "label": "Имя",
+    "type": "profile",
+    "input_type": "text",
+    "required": true,
+    "placeholder": "Введите имя",
+    "importance": "required"
+  },
+  {
+    "id": "middle_name",
+    "label": "Отчество",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "Введите отчество",
+    "importance": "optional"
+  },
+  {
+    "id": "birth_date",
+    "label": "Дата рождения",
+    "type": "profile",
+    "input_type": "date",
+    "required": false,
+    "placeholder": "дд.мм.гггг",
+    "importance": "optional"
+  },
+  {
+    "id": "address",
+    "label": "Адрес",
+    "type": "profile",
+    "input_type": "text",
+    "required": true,
+    "placeholder": "город, улица, дом, квартира, индекс",
+    "importance": "required"
+  },
+  {
+    "id": "phone",
+    "label": "Телефон",
+    "type": "profile",
+    "input_type": "tel",
+    "required": true,
+    "placeholder": "+7 000 000-00-00",
+    "importance": "required"
+  },
+  {
+    "id": "email",
+    "label": "Email",
+    "type": "profile",
+    "input_type": "email",
+    "required": false,
+    "placeholder": "Введите email",
+    "importance": "recommended"
+  },
+  {
+    "id": "passport_series",
+    "label": "Серия паспорта",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "4 цифры",
+    "importance": "recommended"
+  },
+  {
+    "id": "passport_number",
+    "label": "Номер паспорта",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "6 цифр",
+    "importance": "recommended"
+  },
+  {
+    "id": "passport_issued_by",
+    "label": "Кем выдан паспорт",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "Название органа, выдавшего паспорт",
+    "importance": "recommended"
+  },
+  {
+    "id": "passport_issued_date",
+    "label": "Дата выдачи паспорта",
+    "type": "profile",
+    "input_type": "date",
+    "required": false,
+    "placeholder": "дд.мм.гггг",
+    "importance": "recommended"
+  },
+  {
+    "id": "passport_department_code",
+    "label": "Код подразделения",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "000-000",
+    "importance": "recommended"
+  },
+  {
+    "id": "driver_license",
+    "label": "Водительское удостоверение",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "серия и номер водительского удостоверения",
+    "importance": "recommended"
+  },
+  {
+    "id": "vehicle_plate",
+    "label": "Госномер автомобиля",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "например: А000АА777",
+    "importance": "recommended"
+  },
+  {
+    "id": "vehicle_model",
+    "label": "Марка и модель автомобиля",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "например: Kia Rio",
+    "importance": "recommended"
+  },
+  {
+    "id": "vehicle_sts",
+    "label": "СТС",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "серия и номер свидетельства о регистрации",
+    "importance": "recommended"
+  },
+  {
+    "id": "osago_policy",
+    "label": "Полис ОСАГО",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "серия и номер полиса ОСАГО",
+    "importance": "recommended"
+  },
+  {
+    "id": "mobile_device_model",
+    "label": "Телефон / устройство",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "например: iPhone 15, Samsung Galaxy",
+    "importance": "recommended"
+  },
+  {
+    "id": "mobile_device_imei",
+    "label": "IMEI / серийный номер устройства",
+    "type": "profile",
+    "input_type": "text",
+    "required": false,
+    "placeholder": "IMEI или серийный номер, если известен",
+    "importance": "recommended"
+  }
+]

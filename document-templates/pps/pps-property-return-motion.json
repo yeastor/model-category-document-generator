@@ -1,0 +1,96 @@
+{
+  "id": "pps_property_return_motion_v1",
+  "category": "pps",
+  "link_id": "pps_property_return_motion",
+  "name": "Заявление / ходатайство о возврате изъятого имущества",
+  "description": "Для возврата документов, вещей, денег или иного имущества, изъятого или удерживаемого после досмотра, доставления или проверки.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "Должностному лицу / в орган, у которого находится имущество"
+    },
+    {
+      "id": "property_return_recipient"
+    },
+    {
+      "id": "police_unit_name"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "officer_name"
+    },
+    {
+      "id": "search_protocol_number"
+    },
+    {
+      "id": "seizure_protocol_number"
+    },
+    {
+      "id": "seized_item_description"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Заявление / ходатайство о возврате изъятого имущества",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\nпаспорт: {{passport}}\n\nЗаявление / ходатайство о возврате изъятого имущества\n\nПрошу вернуть принадлежащее мне имущество либо предоставить письменное решение о причинах его дальнейшего удержания.\n{{property_return_recipient_block}}\n{{police_unit_name_block}}\n{{seized_item_description_block}}\n\nСведения об изъятии или удержании:\n{{incident_date}} примерно в {{incident_time}} имущество было изъято или удержано.\n{{location_block}}\n{{officer_name_block}}\n{{search_protocol_number_block}}\n{{seizure_protocol_number_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\n{{free_text_appendix_notice}}\n\nПрошу вернуть имущество, выдать копии документов об изъятии или удержании, а при отказе указать правовое основание и срок дальнейшего удержания.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "passport_series",
+    "passport_number",
+    "passport_issued_by",
+    "passport_issued_date",
+    "passport_department_code"
+  ]
+}

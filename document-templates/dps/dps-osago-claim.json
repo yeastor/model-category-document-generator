@@ -1,0 +1,98 @@
+{
+  "id": "dps_osago_claim_v1",
+  "category": "dps",
+  "link_id": "dps_osago_claim",
+  "name": "Заявление о страховом возмещении по ОСАГО",
+  "description": "Для обращения в страховую компанию после ДТП: данные заявителя, автомобиля, полиса ОСАГО, ДТП, повреждений и приложенных материалов.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "В страховую компанию"
+    },
+    {
+      "id": "insurance_company"
+    },
+    {
+      "id": "insurance_case_number"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "accident_participants"
+    },
+    {
+      "id": "other_vehicle"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "circumstances"
+    },
+    {
+      "id": "damage_description"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Заявление о страховом возмещении по ОСАГО",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\nпаспорт: {{passport}}\n\nЗаявление о страховом возмещении по ОСАГО\n\nПрошу рассмотреть заявление о страховом возмещении в связи с дорожно-транспортным происшествием.\n{{insurance_company_block}}\n{{insurance_case_number_block}}\n\nДанные заявителя и автомобиля:\nВодительское удостоверение: {{driver_license}}\nАвтомобиль: {{vehicle_model}}, госномер {{vehicle_plate}}\nСТС: {{vehicle_sts}}\nПолис ОСАГО: {{osago_policy}}\n\nСведения о ДТП:\n{{incident_date}} примерно в {{incident_time}} произошло дорожно-транспортное происшествие.\n{{location_block}}\n{{accident_participants_block}}\n{{other_vehicle_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\n{{free_text_appendix_notice}}\n\nПрошу принять заявление, организовать осмотр транспортного средства, рассмотреть приложенные материалы и произвести страховое возмещение при наличии оснований.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "passport_series",
+    "passport_number",
+    "passport_issued_by",
+    "passport_issued_date",
+    "passport_department_code",
+    "driver_license",
+    "vehicle_model",
+    "vehicle_plate",
+    "vehicle_sts",
+    "osago_policy"
+  ]
+}

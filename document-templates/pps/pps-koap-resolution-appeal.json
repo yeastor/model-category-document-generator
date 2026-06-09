@@ -1,0 +1,114 @@
+{
+  "id": "pps_koap_resolution_appeal_v1",
+  "category": "pps",
+  "link_id": "pps_koap_resolution_appeal",
+  "name": "Жалоба на постановление по делу об административном правонарушении",
+  "description": "Для обжалования постановления по материалам полиции, если нарушения при проверке, доставлении, досмотре, изъятии или отказе в защитнике повлияли на дело.",
+  "output": [
+    "pdf",
+    "docx",
+    "txt"
+  ],
+  "fields": [
+    {
+      "id": "recipient",
+      "default": "В суд / вышестоящему должностному лицу"
+    },
+    {
+      "id": "resolution_number"
+    },
+    {
+      "id": "resolution_date"
+    },
+    {
+      "id": "resolution_received_date"
+    },
+    {
+      "id": "incident_date"
+    },
+    {
+      "id": "incident_time"
+    },
+    {
+      "id": "location"
+    },
+    {
+      "id": "koap_article"
+    },
+    {
+      "id": "fine_amount"
+    },
+    {
+      "id": "officer_name"
+    },
+    {
+      "id": "objections"
+    },
+    {
+      "id": "demands"
+    },
+    {
+      "id": "protocol_number"
+    },
+    {
+      "id": "protocol_date"
+    },
+    {
+      "id": "police_unit_name"
+    },
+    {
+      "id": "delivery_document_number"
+    },
+    {
+      "id": "search_protocol_number"
+    },
+    {
+      "id": "seizure_protocol_number"
+    },
+    {
+      "id": "witnesses"
+    },
+    {
+      "id": "video_recording"
+    },
+    {
+      "id": "evidence"
+    },
+    {
+      "id": "has_resolution_copy"
+    },
+    {
+      "id": "has_protocol_copy"
+    },
+    {
+      "id": "has_photo_video"
+    },
+    {
+      "id": "has_audio"
+    },
+    {
+      "id": "has_witnesses"
+    },
+    {
+      "id": "has_screenshots"
+    },
+    {
+      "id": "other_attachments"
+    }
+  ],
+  "title": "Жалоба на постановление по делу об административном правонарушении",
+  "body": "{{recipient}}\nот {{full_name}}\nадрес: {{address}}\nтелефон: {{phone}}\nemail: {{email}}\nпаспорт: {{passport}}\n\nЖалоба на постановление по делу об административном правонарушении\n\nПрошу рассмотреть жалобу на постановление по делу об административном правонарушении.\n{{resolution_number_block}}\nДата постановления: {{resolution_date}}\nДата получения копии постановления: {{resolution_received_date}}\n{{koap_article_block}}\n{{fine_amount_block}}\n{{officer_name_block}}\n{{protocol_number_block}}\nДата протокола: {{protocol_date}}\n\nСведения о событии:\n{{incident_date}} примерно в {{incident_time}} произошло событие, в связи с которым были оформлены материалы.\n{{location_block}}\n{{police_unit_name_block}}\n{{delivery_document_number_block}}\n{{search_protocol_number_block}}\n{{seizure_protocol_number_block}}\n{{witnesses_block}}\n{{video_recording_block}}\n\n{{free_text_appendix_notice}}\n\nПрошу отменить постановление по делу об административном правонарушении и прекратить производство по делу либо направить дело на новое рассмотрение, если для этого имеются основания.\n\n{{attachments_block}}\n\nДата: {{generated_date}}\nПодпись: __________________ / {{full_name}} /",
+  "profile_fields": [
+    "last_name",
+    "first_name",
+    "middle_name",
+    "address",
+    "phone",
+    "email",
+    "passport_series",
+    "passport_number",
+    "passport_issued_by",
+    "passport_issued_date",
+    "passport_department_code"
+  ]
+}

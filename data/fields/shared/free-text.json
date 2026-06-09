@@ -1,0 +1,77 @@
+[
+  {
+    "id": "circumstances",
+    "label": "Обстоятельства",
+    "type": "free_text",
+    "input_type": "textarea",
+    "required": false,
+    "placeholder": "Опишите только факты: кто, где, когда и что сделал или сказал",
+    "llm": {
+      "enabled": false,
+      "raw_value": "",
+      "processed_value": "",
+      "status": "raw"
+    },
+    "importance": "recommended"
+  },
+  {
+    "id": "evidence",
+    "label": "Доказательства",
+    "type": "free_text",
+    "input_type": "textarea",
+    "required": false,
+    "placeholder": "Опишите доказательства: фото, видео, свидетели, документы",
+    "llm": {
+      "enabled": false,
+      "raw_value": "",
+      "processed_value": "",
+      "status": "raw"
+    },
+    "importance": "optional"
+  },
+  {
+    "id": "objections",
+    "label": "Возражения и замечания",
+    "type": "free_text",
+    "input_type": "textarea",
+    "required": false,
+    "placeholder": "Опишите, с чем не согласны и какие замечания просите учесть",
+    "llm": {
+      "enabled": false,
+      "raw_value": "",
+      "processed_value": "",
+      "status": "raw"
+    },
+    "importance": "recommended"
+  },
+  {
+    "id": "damage_description",
+    "label": "Повреждения и ущерб",
+    "type": "free_text",
+    "input_type": "textarea",
+    "required": false,
+    "placeholder": "Опишите повреждения автомобиля, вред здоровью или иной ущерб",
+    "llm": {
+      "enabled": false,
+      "raw_value": "",
+      "processed_value": "",
+      "status": "raw"
+    },
+    "importance": "optional"
+  },
+  {
+    "id": "demands",
+    "label": "Требования",
+    "type": "free_text",
+    "input_type": "textarea",
+    "required": false,
+    "placeholder": "Напишите, что просите проверить, отменить, выплатить или сделать",
+    "llm": {
+      "enabled": false,
+      "raw_value": "",
+      "processed_value": "",
+      "status": "raw"
+    },
+    "importance": "recommended"
+  }
+]
