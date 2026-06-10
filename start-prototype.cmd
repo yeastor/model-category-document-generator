@@ -1,3 +1,1 @@
-@echo off
-cd /d "%~dp0"
-npm start
+go run ./cmd/document-generator

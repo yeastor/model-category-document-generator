@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -15,7 +16,16 @@ def main() -> int:
     output_path = Path(sys.argv[2])
     payload = json.loads(payload_path.read_text(encoding="utf-8"))
 
-    font_path = Path("C:/Windows/Fonts/arial.ttf")
+    font_candidates = [
+        os.environ.get("PDF_FONT_PATH", ""),
+        "C:/Windows/Fonts/arial.ttf",
+        "/usr/share/fonts/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    ]
+    font_path = next((Path(item) for item in font_candidates if item and Path(item).exists()), None)
+    if font_path is None:
+        raise RuntimeError("PDF font not found. Set PDF_FONT_PATH to a TTF font with Cyrillic support.")
+
     font_name = "ArialCustom"
     pdfmetrics.registerFont(TTFont(font_name, str(font_path)))
 

@@ -1,12 +1,12 @@
 # Document Generator Prototype
 
-Отдельный прототип генератора юридических документов для MVP АЙзащита. Прототип не трогает админку и основной проект: он показывает, как хранить поля, шаблоны, связи с ответами юр-бота и как генерировать PDF/DOCX/TXT.
+Отдельный Go-сервис генератора юридических документов для MVP АЙзащита. Сервис хранит схемы полей, шаблоны документов, связи с ответами юр-бота, списки модерации и логику генерации PDF/DOCX/TXT.
 
 ## Запуск
 
 ```powershell
-cd C:\Users\mujlo\Documents\Codex\2026-05-27\files-mentioned-by-the-user-pps
-npm start
+cd C:\Users\mujlo\Documents\Codex\model-category-document-generator
+go run ./cmd/document-generator
 ```
 
 Открыть:
@@ -21,8 +21,31 @@ http://localhost:4177/
 start-prototype.cmd
 ```
 
+## Docker
+
+Dockerfile лежит здесь:
+
+```text
+build/Dockerfile
+```
+
+Сборка:
+
+```powershell
+docker build -f build/Dockerfile -t model-category-document-generator .
+```
+
+Запуск:
+
+```powershell
+docker run --rm -p 4177:4177 model-category-document-generator
+```
+
+В Docker-образе Go-сервис запускается как один бинарник. Для PDF внутри образа установлены `python3`, `py3-reportlab` и шрифт `DejaVuSans`.
+
 ## Что Сейчас Реализовано
 
+- Go HTTP-сервис с тем же API-контрактом, который был у прототипа.
 - 12 шаблонов документов: 6 ДПС и 6 ППС.
 - Генерация `pdf`, `docx`, `txt`.
 - Профильные поля пользователя.
@@ -30,15 +53,28 @@ start-prototype.cmd
 - Категорийные case-поля для ДПС и ППС.
 - Свободные текстовые поля с выносом в `Приложение № 1`.
 - Блок `Приложения`.
-- Модерация свободного текста по спискам мата, оскорблений и опасных обвинений.
+- Модерация по спискам мата, корней мата, оскорблений, опасных обвинений и исключений.
 - `importance`: `required`, `recommended`, `optional`.
-- Чипсы для case-полей.
-- Разная длина линии для `Заполню позже`: `short`, `medium`, `long`.
-- Мост между `where_to` юр-бота и шаблонами через `document_link_id`.
+- Чипсы и статусы для case-полей.
+- Длина линии для `Заполню позже`: `short`, `medium`, `long`.
+- Мост между `where_to[].document_link_id` юр-бота и шаблонами документов.
 
 ## Структура Проекта
 
 ```text
+cmd/
+  document-generator/
+internal/
+  api/
+  config/
+  domain/
+  moderation/
+  render/
+  repository/
+  usecase/
+build/
+  Dockerfile
+
 data/
   document-links.json
   user-profile.json
@@ -65,7 +101,7 @@ legal-review-samples/
 generated/
 public/
 scripts/
-server.mjs
+go.mod
 ```
 
 ## Поля Fields
@@ -75,7 +111,6 @@ server.mjs
 ```text
 data/fields
 ```
-
 ### Profile Fields
 
 Файл:
