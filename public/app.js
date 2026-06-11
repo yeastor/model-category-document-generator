@@ -60,6 +60,104 @@ function fieldDefinition(id) {
   return allEntityFields().find((field) => field.id === id) || { id, label: id, type: "case", input_type: "text" };
 }
 
+function validationRule(definition) {
+  return definition.validation || {};
+}
+
+function textLength(value) {
+  return [...String(value ?? "")].length;
+}
+
+function onlyDigits(value) {
+  return String(value ?? "").replace(/\D/g, "");
+}
+
+function localRussianPhoneDigits(value) {
+  const raw = String(value ?? "").trim();
+  let digits = onlyDigits(value);
+  if (raw.startsWith("+7") && digits.startsWith("7")) {
+    digits = digits.slice(1);
+  } else if (digits.length === 11 && (digits.startsWith("7") || digits.startsWith("8"))) {
+    digits = digits.slice(1);
+  }
+  return digits.slice(0, 10);
+}
+
+function formatRussianPhone(value) {
+  const digits = localRussianPhoneDigits(value);
+  if (!digits) return "";
+  const a = digits.slice(0, 3);
+  const b = digits.slice(3, 6);
+  const c = digits.slice(6, 8);
+  const d = digits.slice(8, 10);
+  let result = "+7(" + a;
+  if (a.length === 3) result += ")";
+  if (b) result += b;
+  if (b.length === 3) result += "-";
+  if (c) result += c;
+  if (c.length === 2) result += "-";
+  if (d) result += d;
+  return result;
+}
+
+function formatDepartmentCode(value) {
+  const digits = onlyDigits(value).slice(0, 6);
+  if (digits.length <= 3) return digits;
+  return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+}
+
+function normalizeSubmittedValue(field, value) {
+  const validation = validationRule(field);
+  if (field.id === "phone" || validation.kind === "ru_phone") return localRussianPhoneDigits(value);
+  if (["passport_series", "passport_number"].includes(field.id) || validation.kind === "digits") return onlyDigits(value);
+  if (field.id === "passport_department_code" || validation.kind === "passport_department_code") return formatDepartmentCode(value);
+  return String(value ?? "").trim();
+}
+
+function applyFieldMask(input, field) {
+  const validation = validationRule(field);
+  if (validation.max_length) input.maxLength = validation.max_length;
+  if (validation.exact_length) input.maxLength = validation.exact_length;
+  if (validation.mask) input.placeholder = validation.mask;
+
+  if (validation.kind === "ru_phone" || field.id === "phone") {
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.autocomplete = "tel";
+    input.value = formatRussianPhone(input.value);
+    input.addEventListener("focus", () => {
+      if (!localRussianPhoneDigits(input.value)) input.value = "+7(";
+    });
+    input.addEventListener("input", () => {
+      input.value = formatRussianPhone(input.value);
+      if (!input.value) input.value = "+7(";
+    });
+    input.addEventListener("blur", () => {
+      if (!localRussianPhoneDigits(input.value)) input.value = "";
+    });
+    return;
+  }
+
+  if (validation.kind === "passport_department_code" || field.id === "passport_department_code") {
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.maxLength = 7;
+    input.addEventListener("input", () => {
+      input.value = formatDepartmentCode(input.value);
+    });
+    return;
+  }
+
+  if (["passport_series", "passport_number"].includes(field.id) || validation.kind === "digits") {
+    input.type = "text";
+    input.inputMode = "numeric";
+    input.addEventListener("input", () => {
+      const digits = onlyDigits(input.value);
+      input.value = validation.exact_digits ? digits.slice(0, validation.exact_digits) : digits;
+    });
+  }
+}
+
 function normalizeForProfanity(value) {
   return String(value ?? "")
     .toLowerCase()
@@ -90,6 +188,7 @@ function createBaseInput(field, value = "") {
     input.type = field.input_type || "text";
   }
   if (field.input_type === "textarea") input.rows = 5;
+  applyFieldMask(input, field);
   return input;
 }
 
@@ -134,11 +233,88 @@ function isValidEmail(value) {
 function isValidPhone(value) {
   const text = String(value ?? "").trim();
   if (!text) return true;
-  const digits = text.replace(/\D/g, "");
-  return digits.length >= 7 && digits.length <= 20;
+  return localRussianPhoneDigits(text).length === 10;
+}
+
+function containsHTML(value) {
+  return /<\s*\/?\s*[a-z][^>]*>/i.test(String(value ?? ""));
+}
+
+function containsLink(value) {
+  const withoutEmails = String(value ?? "").replace(/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/gi, "");
+  return /\b(?:https?:\/\/|www\.|[a-z0-9][a-z0-9-]{1,62}\.(?:ru|рф|com|net|org|info|biz|io|ai)\b)/i.test(withoutEmails);
+}
+
+function countEmailLike(value) {
+  return (String(value ?? "").match(/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/gi) || []).length;
+}
+
+function countPhoneLike(value) {
+  return (String(value ?? "").match(/(?:\+7|8)[\s(.-]*\d{3}[\s).-]*\d{3}[\s.-]*\d{2}[\s.-]*\d{2}/g) || []).length;
+}
+
+function hasRepeatedSpamRun(value) {
+  return /([\p{L}\d])\1{7,}/iu.test(String(value ?? ""));
+}
+
+function shouldCheckRepeatedSpam(kind) {
+  return ![
+    "ru_phone",
+    "digits",
+    "passport_series",
+    "passport_number",
+    "passport_department_code",
+    "document_number",
+    "vehicle_plate",
+    "money",
+    "email",
+    "date",
+    "time",
+    "imei_or_serial",
+    "checkbox",
+  ].includes(kind || "");
+}
+
+function validateCommonSecurity(validation, value) {
+  if (!validation.allow_html && containsHTML(value)) return false;
+  if (!validation.allow_links && containsLink(value)) return false;
+  const emailCount = countEmailLike(value);
+  if (validation.allow_email) {
+    if (validation.max_email_count && emailCount > validation.max_email_count) return false;
+  } else if (emailCount > 0) {
+    return false;
+  }
+  const phoneCount = countPhoneLike(value);
+  if (validation.allow_phone) {
+    if (validation.max_phone_count && phoneCount > validation.max_phone_count) return false;
+  } else if (phoneCount > 0) {
+    return false;
+  }
+  return !shouldCheckRepeatedSpam(validation.kind) || !hasRepeatedSpamRun(value);
 }
 
 function validateFieldValue(definition, value) {
+  const validation = validationRule(definition);
+  const text = String(value ?? "").trim();
+  if (!text) return true;
+  if (!validateCommonSecurity(validation, text)) return false;
+  if (validation.min_length && textLength(text) < validation.min_length) return false;
+  if (validation.max_length && textLength(text) > validation.max_length) return false;
+  if (validation.exact_length && textLength(text) !== validation.exact_length) return false;
+  if (validation.exact_digits && validation.kind !== "ru_phone" && onlyDigits(text).length !== validation.exact_digits) return false;
+  if (validation.pattern && !(new RegExp(validation.pattern)).test(text)) return false;
+  if (validation.kind === "ru_name") return /^[\p{L}\s-]+$/u.test(text);
+  if (validation.kind === "digits") return /^\d+$/.test(text);
+  if (validation.kind === "ru_phone") return isValidPhone(text);
+  if (validation.kind === "passport_series") return /^\d{4}$/.test(text);
+  if (validation.kind === "passport_number") return /^\d{6}$/.test(text);
+  if (validation.kind === "passport_department_code") return /^\d{3}-\d{3}$/.test(text);
+  if (validation.kind === "document_number") return /^[\p{L}\d№#/\-.\s]+$/u.test(text);
+  if (validation.kind === "vehicle_plate") return /^[\p{L}\d\s-]+$/u.test(text) && textLength(text) <= 12;
+  if (validation.kind === "money") return /^[\d\s.,]+(?:руб(?:\.|лей|ля)?|₽)?$/iu.test(text);
+  if (validation.kind === "email") return isValidEmail(text);
+  if (validation.kind === "date") return isValidDate(text);
+  if (validation.kind === "time") return isValidTime(text);
   const inputType = definition.input_type || definition.inputType;
   if (definition.case_variant === "date" || inputType === "date") return isValidDate(value);
   if (definition.case_variant === "time" || inputType === "time") return isValidTime(value);
@@ -565,12 +741,12 @@ function readFields() {
   const fields = {};
 
   for (const field of activeProfileFields()) {
-    fields[field.id] = formData.get(field.id) || "";
+    fields[field.id] = normalizeSubmittedValue(field, formData.get(field.id) || "");
   }
 
   for (const templateField of selectedTemplate.fields) {
     const definition = { ...fieldDefinition(templateField.id), ...templateField };
-    const value = formData.get(definition.id) || "";
+    const value = normalizeSubmittedValue(definition, formData.get(definition.id) || "");
 
     if (definition.type === "free_text") {
       fields[definition.id] = {

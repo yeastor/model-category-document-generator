@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strings"
 	"time"
+	"unicode"
 
 	"model-category-document-generator/internal/config"
 	"model-category-document-generator/internal/domain"
@@ -21,7 +22,7 @@ const (
 	profanityError    = "Пожалуйста не используйте нецензурные выражения, иначе мы не сможем сгенерировать документ"
 	insultError       = "Уберите оскорбления и опишите ситуацию нейтрально: кто, где, когда и что сделал или сказал."
 	accusationError   = "Перепишите непроверенные обвинения в нейтральные факты: кто, где, когда и что сделал или сказал."
-	validationError   = "Проверьте формат выделенных полей: дата — ДД.ММ.ГГГГ, время — ЧЧ:ММ, email и телефон — в обычном формате."
+	validationError   = "Проверьте формат выделенных полей: дата - ДД.ММ.ГГГГ, время - ЧЧ:ММ, email и телефон - в обычном формате."
 	requiredCaseError = "Заполните поле или выберите один из вариантов ниже"
 	requiredTimeError = "Укажите время или выберите подходящий вариант ниже."
 	requiredDateError = "Укажите дату или выберите подходящий вариант ниже."
@@ -199,6 +200,9 @@ func buildProfileFields(profile map[string]interface{}) map[string]interface{} {
 	for key, value := range profile {
 		result[key] = value
 	}
+	if phone := formatRussianPhoneForRender(stringValue(result["phone"])); phone != "" {
+		result["phone"] = phone
+	}
 	fullName := strings.Join(nonEmptyStrings(
 		stringValue(result["last_name"]),
 		stringValue(result["first_name"]),
@@ -299,6 +303,9 @@ func mergeField(base domain.Field, override domain.Field) domain.Field {
 	}
 	if override.Required {
 		base.Required = true
+	}
+	if validationHasValues(override.Validation) {
+		base.Validation = override.Validation
 	}
 	return base
 }
@@ -458,6 +465,9 @@ func requiredEmptyCaseError(template domain.Template, entities domain.Entities, 
 func prepareRenderContext(template domain.Template, entities domain.Entities, profile map[string]interface{}, requestFields map[string]interface{}, legalToneEnabled bool) domain.RenderContext {
 	fieldMap := buildFieldMap(entities)
 	fields := mergeMaps(profile, requestFields)
+	if phone := formatRussianPhoneForRender(stringValue(fields["phone"])); phone != "" {
+		fields["phone"] = phone
+	}
 	fields["full_name"] = strings.Join(nonEmptyStrings(
 		stringValue(fields["last_name"]),
 		stringValue(fields["first_name"]),
@@ -631,8 +641,58 @@ func formatAttachmentsBlock(items []string) string {
 }
 
 func validateFieldValue(field domain.Field, value string) bool {
-	if strings.TrimSpace(value) == "" {
+	value = strings.TrimSpace(value)
+	if value == "" {
 		return true
+	}
+	validation := field.Validation
+	if !validateCommonSecurity(validation, value) {
+		return false
+	}
+	if validation.MinLength > 0 && utf8Length(value) < validation.MinLength {
+		return false
+	}
+	if validation.MaxLength > 0 && utf8Length(value) > validation.MaxLength {
+		return false
+	}
+	if validation.ExactLength > 0 && utf8Length(value) != validation.ExactLength {
+		return false
+	}
+	if validation.ExactDigits > 0 && validation.Kind != "ru_phone" && len(onlyDigits(value)) != validation.ExactDigits {
+		return false
+	}
+	if validation.Pattern != "" {
+		pattern, err := regexp.Compile(validation.Pattern)
+		if err != nil || !pattern.MatchString(value) {
+			return false
+		}
+	}
+	switch validation.Kind {
+	case "ru_name":
+		return isValidName(value)
+	case "digits":
+		return len(onlyDigits(value)) == utf8Length(value)
+	case "ru_phone":
+		return isValidRussianPhone(value, validation.StoredDigits)
+	case "passport_series":
+		return regexp.MustCompile(`^\d{4}$`).MatchString(value)
+	case "passport_number":
+		return regexp.MustCompile(`^\d{6}$`).MatchString(value)
+	case "passport_department_code":
+		return regexp.MustCompile(`^\d{3}-\d{3}$`).MatchString(value)
+	case "document_number":
+		return regexp.MustCompile(`^[\p{L}\d№#/\-.\s]+$`).MatchString(value)
+	case "vehicle_plate":
+		return regexp.MustCompile(`^[\p{L}\d\s-]+$`).MatchString(value) && utf8Length(value) <= 12
+	case "money":
+		return regexp.MustCompile(`^[\d\s.,]+(?:руб(?:\.|лей|ля)?|₽)?$`).MatchString(strings.ToLower(value))
+	case "email":
+		_, err := mail.ParseAddress(value)
+		return err == nil
+	case "date":
+		return isValidDate(value)
+	case "time":
+		return isValidTime(value)
 	}
 	switch {
 	case field.CaseVariant == "date" || field.InputType == "date":
@@ -648,6 +708,149 @@ func validateFieldValue(field domain.Field, value string) bool {
 	default:
 		return true
 	}
+}
+
+func validationHasValues(validation domain.Validation) bool {
+	return validation.Kind != "" ||
+		validation.MinLength != 0 ||
+		validation.MaxLength != 0 ||
+		validation.ExactLength != 0 ||
+		validation.ExactDigits != 0 ||
+		validation.Pattern != "" ||
+		validation.Mask != "" ||
+		validation.StoredDigits != 0 ||
+		validation.AllowHTML ||
+		validation.AllowLinks ||
+		validation.AllowEmail ||
+		validation.AllowPhone ||
+		validation.MaxEmailCount != 0 ||
+		validation.MaxPhoneCount != 0
+}
+
+func validateCommonSecurity(validation domain.Validation, value string) bool {
+	if !validation.AllowHTML && containsHTML(value) {
+		return false
+	}
+	if !validation.AllowLinks && containsLink(value) {
+		return false
+	}
+	emailCount := countEmailLike(value)
+	if validation.AllowEmail {
+		if validation.MaxEmailCount > 0 && emailCount > validation.MaxEmailCount {
+			return false
+		}
+	} else if emailCount > 0 {
+		return false
+	}
+	phoneCount := countPhoneLike(value)
+	if validation.AllowPhone {
+		if validation.MaxPhoneCount > 0 && phoneCount > validation.MaxPhoneCount {
+			return false
+		}
+	} else if phoneCount > 0 {
+		return false
+	}
+	if shouldCheckRepeatedSpam(validation.Kind) && hasRepeatedSpamRun(value) {
+		return false
+	}
+	return true
+}
+
+func containsHTML(value string) bool {
+	return regexp.MustCompile(`(?i)<\s*/?\s*[a-z][^>]*>`).MatchString(value)
+}
+
+func containsLink(value string) bool {
+	withoutEmails := regexp.MustCompile(`(?i)[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}`).ReplaceAllString(value, "")
+	return regexp.MustCompile(`(?i)\b(?:https?://|www\.|[a-z0-9][a-z0-9-]{1,62}\.(?:ru|рф|com|net|org|info|biz|io|ai)\b)`).MatchString(withoutEmails)
+}
+
+func countEmailLike(value string) int {
+	return len(regexp.MustCompile(`(?i)[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}`).FindAllString(value, -1))
+}
+
+func countPhoneLike(value string) int {
+	return len(regexp.MustCompile(`(?:\+7|8)[\s(.-]*\d{3}[\s).-]*\d{3}[\s.-]*\d{2}[\s.-]*\d{2}`).FindAllString(value, -1))
+}
+
+func hasRepeatedSpamRun(value string) bool {
+	var previous rune
+	repeats := 0
+	for _, current := range strings.ToLower(value) {
+		if !unicode.IsLetter(current) && !unicode.IsDigit(current) {
+			previous = 0
+			repeats = 0
+			continue
+		}
+		if current == previous {
+			repeats++
+			if repeats >= 7 {
+				return true
+			}
+		} else {
+			previous = current
+			repeats = 1
+		}
+	}
+	return false
+}
+
+func shouldCheckRepeatedSpam(kind string) bool {
+	switch kind {
+	case "ru_phone", "digits", "passport_series", "passport_number", "passport_department_code", "document_number", "vehicle_plate", "money", "email", "date", "time", "imei_or_serial", "checkbox":
+		return false
+	default:
+		return true
+	}
+}
+
+func isValidName(value string) bool {
+	for _, char := range value {
+		if unicode.IsLetter(char) || char == '-' || char == ' ' {
+			continue
+		}
+		return false
+	}
+	return true
+}
+
+func isValidRussianPhone(value string, storedDigits int) bool {
+	digits := russianPhoneDigits(value)
+	if storedDigits == 0 {
+		storedDigits = 10
+	}
+	if len(digits) == storedDigits {
+		return true
+	}
+	return false
+}
+
+func onlyDigits(value string) string {
+	var builder strings.Builder
+	for _, char := range value {
+		if unicode.IsDigit(char) {
+			builder.WriteRune(char)
+		}
+	}
+	return builder.String()
+}
+
+func russianPhoneDigits(value string) string {
+	raw := strings.TrimSpace(value)
+	digits := onlyDigits(raw)
+	if strings.HasPrefix(raw, "+7") && strings.HasPrefix(digits, "7") {
+		digits = digits[1:]
+	} else if len(digits) == 11 && (strings.HasPrefix(digits, "7") || strings.HasPrefix(digits, "8")) {
+		digits = digits[1:]
+	}
+	if len(digits) > 10 {
+		return digits[:10]
+	}
+	return digits
+}
+
+func utf8Length(value string) int {
+	return len([]rune(value))
 }
 
 func isValidDate(value string) bool {
@@ -671,6 +874,14 @@ func normalizeDateForRender(value string) string {
 		return parsed.Format("02.01.2006")
 	}
 	return value
+}
+
+func formatRussianPhoneForRender(value string) string {
+	digits := russianPhoneDigits(value)
+	if len(digits) != 10 {
+		return strings.TrimSpace(value)
+	}
+	return fmt.Sprintf("+7(%s)%s-%s-%s", digits[0:3], digits[3:6], digits[6:8], digits[8:10])
 }
 
 func fillLaterText(field domain.Field) string {

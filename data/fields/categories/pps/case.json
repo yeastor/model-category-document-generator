@@ -11,7 +11,12 @@
     "block_unknown_text": "точное подразделение полиции мне неизвестно",
     "block_fill_later_label": "Отдел / подразделение полиции",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "org_name",
+      "min_length": 3,
+      "max_length": 200
+    }
   },
   {
     "id": "police_unit_address",
@@ -25,7 +30,12 @@
     "block_unknown_text": "адрес отдела полиции мне неизвестен",
     "block_fill_later_label": "Адрес отдела полиции",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "address",
+      "min_length": 5,
+      "max_length": 250
+    }
   },
   {
     "id": "appeal_reason",
@@ -39,7 +49,12 @@
     "block_unknown_text": "причина обращения сотрудников мне неизвестна",
     "block_fill_later_label": "Названная причина обращения",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 180
+    }
   },
   {
     "id": "delivery_place",
@@ -53,7 +68,12 @@
     "block_unknown_text": "место доставления мне неизвестно",
     "block_fill_later_label": "Место доставления",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "address",
+      "min_length": 3,
+      "max_length": 200
+    }
   },
   {
     "id": "delivery_document_number",
@@ -67,7 +87,12 @@
     "block_unknown_text": "номер документа о доставлении или задержании мне неизвестен",
     "block_fill_later_label": "Документ о доставлении / задержании",
     "importance": "optional",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 60
+    }
   },
   {
     "id": "search_protocol_number",
@@ -81,7 +106,12 @@
     "block_unknown_text": "номер документа о досмотре мне неизвестен",
     "block_fill_later_label": "Документ о досмотре",
     "importance": "optional",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 60
+    }
   },
   {
     "id": "seizure_protocol_number",
@@ -95,7 +125,12 @@
     "block_unknown_text": "номер документа об изъятии мне неизвестен",
     "block_fill_later_label": "Документ об изъятии",
     "importance": "optional",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 60
+    }
   },
   {
     "id": "seized_item_description",
@@ -109,7 +144,12 @@
     "block_unknown_text": "точное описание изъятого имущества мне неизвестно",
     "block_fill_later_label": "Изъятое или удерживаемое имущество",
     "importance": "recommended",
-    "fill_later_preset": "long"
+    "fill_later_preset": "long",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 200
+    }
   },
   {
     "id": "phone_access_action",
@@ -123,7 +163,12 @@
     "block_unknown_text": "точное требование по телефону мне неизвестно",
     "block_fill_later_label": "Требование по телефону",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 200
+    }
   },
   {
     "id": "phone_return_recipient",
@@ -137,7 +182,12 @@
     "block_unknown_text": "адресат ходатайства о возврате телефона мне неизвестен",
     "block_fill_later_label": "Адресат возврата телефона",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "recipient",
+      "min_length": 3,
+      "max_length": 200
+    }
   },
   {
     "id": "property_return_recipient",
@@ -151,7 +201,12 @@
     "block_unknown_text": "адресат ходатайства о возврате имущества мне неизвестен",
     "block_fill_later_label": "Адресат возврата имущества",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "recipient",
+      "min_length": 3,
+      "max_length": 200
+    }
   },
   {
     "id": "crime_report_basis",
@@ -165,7 +220,12 @@
     "block_unknown_text": "точное основание обращения в Следственный комитет мне неизвестно",
     "block_fill_later_label": "Основание обращения в Следственный комитет",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 200
+    }
   },
   {
     "id": "resolution_date",
@@ -178,7 +238,10 @@
     "placeholder": "дд.мм.гггг",
     "unknown_text": "дата постановления мне неизвестна",
     "approximate_text": "точную дату постановления указать затрудняюсь",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "protocol_date",
@@ -191,7 +254,10 @@
     "placeholder": "дд.мм.гггг",
     "unknown_text": "дата протокола мне неизвестна",
     "approximate_text": "точную дату протокола указать затрудняюсь",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "fine_amount",
@@ -205,6 +271,11 @@
     "block_label": "Сумма штрафа",
     "block_unknown_text": "сумма штрафа мне неизвестна",
     "block_fill_later_label": "Сумма штрафа",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "money",
+      "min_length": 1,
+      "max_length": 40
+    }
   }
 ]

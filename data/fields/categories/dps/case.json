@@ -11,7 +11,12 @@
     "block_unknown_text": "точное подразделение Госавтоинспекции мне неизвестно",
     "block_fill_later_label": "Подразделение Госавтоинспекции",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "org_name",
+      "min_length": 3,
+      "max_length": 200
+    }
   },
   {
     "id": "dps_unit_address",
@@ -25,7 +30,12 @@
     "block_unknown_text": "адрес подразделения Госавтоинспекции мне неизвестен",
     "block_fill_later_label": "Адрес подразделения Госавтоинспекции",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "address",
+      "min_length": 5,
+      "max_length": 250
+    }
   },
   {
     "id": "stop_reason",
@@ -39,7 +49,12 @@
     "block_unknown_text": "названная причина остановки мне неизвестна",
     "block_fill_later_label": "Названная причина остановки",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 160
+    }
   },
   {
     "id": "koap_article",
@@ -53,7 +68,12 @@
     "block_unknown_text": "статья КоАП РФ мне неизвестна",
     "block_fill_later_label": "Статья КоАП РФ",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "koap_article",
+      "min_length": 2,
+      "max_length": 60
+    }
   },
   {
     "id": "fine_amount",
@@ -67,7 +87,12 @@
     "block_unknown_text": "сумма штрафа мне неизвестна",
     "block_fill_later_label": "Сумма штрафа",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "money",
+      "min_length": 1,
+      "max_length": 40
+    }
   },
   {
     "id": "resolution_date",
@@ -80,7 +105,10 @@
     "unknown_text": "дата постановления мне неизвестна",
     "approximate_text": "точную дату постановления указать затрудняюсь",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "protocol_date",
@@ -93,7 +121,10 @@
     "unknown_text": "дата протокола мне неизвестна",
     "approximate_text": "точную дату протокола указать затрудняюсь",
     "importance": "optional",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "alcohol_test_device",
@@ -107,7 +138,12 @@
     "block_unknown_text": "данные прибора освидетельствования мне неизвестны",
     "block_fill_later_label": "Прибор освидетельствования",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 120
+    }
   },
   {
     "id": "alcohol_test_result",
@@ -121,7 +157,12 @@
     "block_unknown_text": "результат освидетельствования мне неизвестен",
     "block_fill_later_label": "Результат освидетельствования",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 1,
+      "max_length": 80
+    }
   },
   {
     "id": "accident_participants",
@@ -135,7 +176,16 @@
     "block_unknown_text": "данные других участников ДТП мне неизвестны",
     "block_fill_later_label": "Участники ДТП",
     "importance": "optional",
-    "fill_later_preset": "long"
+    "fill_later_preset": "long",
+    "validation": {
+      "kind": "contacts_text",
+      "min_length": 2,
+      "max_length": 300,
+      "allow_email": true,
+      "allow_phone": true,
+      "max_email_count": 3,
+      "max_phone_count": 3
+    }
   },
   {
     "id": "other_vehicle",
@@ -149,7 +199,12 @@
     "block_unknown_text": "данные другого транспортного средства мне неизвестны",
     "block_fill_later_label": "Другое транспортное средство",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 160
+    }
   },
   {
     "id": "insurance_company",
@@ -163,7 +218,12 @@
     "block_unknown_text": "точное название страховой компании мне неизвестно",
     "block_fill_later_label": "Страховая компания",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "org_name",
+      "min_length": 2,
+      "max_length": 160
+    }
   },
   {
     "id": "insurance_case_number",
@@ -177,7 +237,12 @@
     "block_unknown_text": "номер страхового дела мне неизвестен",
     "block_fill_later_label": "Номер страхового дела",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 60
+    }
   },
   {
     "id": "ambulance_call_time",
@@ -190,7 +255,10 @@
     "unknown_text": "время вызова скорой помощи мне неизвестно",
     "approximate_text": "точное время вызова скорой помощи указать затрудняюсь",
     "importance": "required",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "time"
+    }
   },
   {
     "id": "ambulance_call_number",
@@ -204,7 +272,12 @@
     "block_unknown_text": "номер вызова скорой помощи мне неизвестен",
     "block_fill_later_label": "Номер вызова скорой помощи",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 50
+    }
   },
   {
     "id": "medical_institution",
@@ -218,6 +291,11 @@
     "block_unknown_text": "медицинская организация мне неизвестна",
     "block_fill_later_label": "Медицинская организация",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "org_name",
+      "min_length": 2,
+      "max_length": 160
+    }
   }
 ]

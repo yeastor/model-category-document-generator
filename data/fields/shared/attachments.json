@@ -6,7 +6,10 @@
     "input_type": "checkbox",
     "required": false,
     "importance": "optional",
-    "attachment_text": "Копия постановления"
+    "attachment_text": "Копия постановления",
+    "validation": {
+      "kind": "checkbox"
+    }
   },
   {
     "id": "has_protocol_copy",
@@ -15,7 +18,10 @@
     "input_type": "checkbox",
     "required": false,
     "importance": "optional",
-    "attachment_text": "Копия протокола"
+    "attachment_text": "Копия протокола",
+    "validation": {
+      "kind": "checkbox"
+    }
   },
   {
     "id": "has_photo_video",
@@ -24,7 +30,10 @@
     "input_type": "checkbox",
     "required": false,
     "importance": "optional",
-    "attachment_text": "Фото- и видеоматериалы"
+    "attachment_text": "Фото- и видеоматериалы",
+    "validation": {
+      "kind": "checkbox"
+    }
   },
   {
     "id": "has_audio",
@@ -33,7 +42,10 @@
     "input_type": "checkbox",
     "required": false,
     "importance": "optional",
-    "attachment_text": "Аудиозапись"
+    "attachment_text": "Аудиозапись",
+    "validation": {
+      "kind": "checkbox"
+    }
   },
   {
     "id": "has_witnesses",
@@ -42,7 +54,10 @@
     "input_type": "checkbox",
     "required": false,
     "importance": "optional",
-    "attachment_text": "Сведения о свидетелях"
+    "attachment_text": "Сведения о свидетелях",
+    "validation": {
+      "kind": "checkbox"
+    }
   },
   {
     "id": "has_screenshots",
@@ -51,7 +66,10 @@
     "input_type": "checkbox",
     "required": false,
     "importance": "optional",
-    "attachment_text": "Скриншоты"
+    "attachment_text": "Скриншоты",
+    "validation": {
+      "kind": "checkbox"
+    }
   },
   {
     "id": "other_attachments",
@@ -60,6 +78,10 @@
     "input_type": "checkbox_textarea",
     "required": false,
     "importance": "optional",
-    "placeholder": "Перечислите другие документы или материалы"
+    "placeholder": "Перечислите другие документы или материалы",
+    "validation": {
+      "kind": "attachment_text",
+      "max_length": 500
+    }
   }
 ]

@@ -11,7 +11,12 @@
     "block_unknown_text": "точный адресат мне неизвестен",
     "block_fill_later_label": "Адресат",
     "importance": "required",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "recipient",
+      "min_length": 3,
+      "max_length": 200
+    }
   },
   {
     "id": "incident_date",
@@ -24,7 +29,10 @@
     "unknown_text": "Дата события мне неизвестна",
     "approximate_text": "точную дату события указать затрудняюсь",
     "importance": "required",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "incident_time",
@@ -37,7 +45,10 @@
     "unknown_text": "Время события мне неизвестно",
     "approximate_text": "точное время события указать затрудняюсь",
     "importance": "required",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "time"
+    }
   },
   {
     "id": "location",
@@ -51,7 +62,12 @@
     "block_unknown_text": "точное место события мне неизвестно",
     "block_fill_later_label": "Место события",
     "importance": "required",
-    "fill_later_preset": "long"
+    "fill_later_preset": "long",
+    "validation": {
+      "kind": "address",
+      "min_length": 5,
+      "max_length": 250
+    }
   },
   {
     "id": "officer_name",
@@ -65,7 +81,12 @@
     "block_unknown_text": "Данные сотрудника мне неизвестны.",
     "block_fill_later_label": "Данные сотрудника",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "person_or_officer",
+      "min_length": 2,
+      "max_length": 120
+    }
   },
   {
     "id": "officer_position",
@@ -79,7 +100,12 @@
     "block_unknown_text": "должность сотрудника мне неизвестна",
     "block_fill_later_label": "Должность сотрудника",
     "importance": "recommended",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 80
+    }
   },
   {
     "id": "badge_number",
@@ -93,7 +119,12 @@
     "block_unknown_text": "номер жетона или служебного удостоверения мне неизвестен",
     "block_fill_later_label": "Номер жетона / служебного удостоверения",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 50
+    }
   },
   {
     "id": "crew_number",
@@ -107,7 +138,12 @@
     "block_unknown_text": "номер экипажа мне неизвестен",
     "block_fill_later_label": "Номер экипажа",
     "importance": "optional",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 30
+    }
   },
   {
     "id": "protocol_number",
@@ -121,7 +157,12 @@
     "block_unknown_text": "номер протокола мне неизвестен",
     "block_fill_later_label": "Номер протокола",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 60
+    }
   },
   {
     "id": "resolution_number",
@@ -135,7 +176,12 @@
     "block_unknown_text": "номер постановления мне неизвестен",
     "block_fill_later_label": "Номер постановления",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 1,
+      "max_length": 80
+    }
   },
   {
     "id": "resolution_received_date",
@@ -148,7 +194,10 @@
     "placeholder": "дд.мм.гггг",
     "unknown_text": "дата получения копии постановления мне неизвестна",
     "approximate_text": "точную дату получения копии постановления указать затрудняюсь",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "koap_article",
@@ -162,7 +211,12 @@
     "block_unknown_text": "статья КоАП РФ мне неизвестна",
     "block_fill_later_label": "Статья КоАП РФ",
     "importance": "recommended",
-    "fill_later_preset": "short"
+    "fill_later_preset": "short",
+    "validation": {
+      "kind": "koap_article",
+      "min_length": 2,
+      "max_length": 60
+    }
   },
   {
     "id": "witnesses",
@@ -176,7 +230,16 @@
     "block_unknown_text": "сведения о свидетелях мне неизвестны",
     "block_fill_later_label": "Свидетели",
     "importance": "optional",
-    "fill_later_preset": "long"
+    "fill_later_preset": "long",
+    "validation": {
+      "kind": "contacts_text",
+      "min_length": 2,
+      "max_length": 300,
+      "allow_email": true,
+      "allow_phone": true,
+      "max_email_count": 3,
+      "max_phone_count": 3
+    }
   },
   {
     "id": "video_recording",
@@ -190,6 +253,11 @@
     "block_unknown_text": "сведения о фото- или видеозаписи мне неизвестны",
     "block_fill_later_label": "Фото- и видеоматериалы",
     "importance": "optional",
-    "fill_later_preset": "medium"
+    "fill_later_preset": "medium",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 160
+    }
   }
 ]

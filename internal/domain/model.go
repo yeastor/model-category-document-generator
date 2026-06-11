@@ -19,6 +19,24 @@ type Field struct {
 	Default             string      `json:"default,omitempty"`
 	Processors          []string    `json:"processors,omitempty"`
 	LLM                 interface{} `json:"llm,omitempty"`
+	Validation          Validation  `json:"validation,omitempty"`
+}
+
+type Validation struct {
+	Kind          string `json:"kind,omitempty"`
+	MinLength     int    `json:"min_length,omitempty"`
+	MaxLength     int    `json:"max_length,omitempty"`
+	ExactLength   int    `json:"exact_length,omitempty"`
+	ExactDigits   int    `json:"exact_digits,omitempty"`
+	Pattern       string `json:"pattern,omitempty"`
+	Mask          string `json:"mask,omitempty"`
+	StoredDigits  int    `json:"stored_digits,omitempty"`
+	AllowHTML     bool   `json:"allow_html,omitempty"`
+	AllowLinks    bool   `json:"allow_links,omitempty"`
+	AllowEmail    bool   `json:"allow_email,omitempty"`
+	AllowPhone    bool   `json:"allow_phone,omitempty"`
+	MaxEmailCount int    `json:"max_email_count,omitempty"`
+	MaxPhoneCount int    `json:"max_phone_count,omitempty"`
 }
 
 type CategoryFields struct {

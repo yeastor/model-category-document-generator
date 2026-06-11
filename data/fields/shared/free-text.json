@@ -12,7 +12,12 @@
       "processed_value": "",
       "status": "raw"
     },
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "free_text",
+      "min_length": 20,
+      "max_length": 3000
+    }
   },
   {
     "id": "evidence",
@@ -27,7 +32,11 @@
       "processed_value": "",
       "status": "raw"
     },
-    "importance": "optional"
+    "importance": "optional",
+    "validation": {
+      "kind": "free_text",
+      "max_length": 2000
+    }
   },
   {
     "id": "objections",
@@ -42,7 +51,12 @@
       "processed_value": "",
       "status": "raw"
     },
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "free_text",
+      "min_length": 20,
+      "max_length": 2500
+    }
   },
   {
     "id": "damage_description",
@@ -57,7 +71,11 @@
       "processed_value": "",
       "status": "raw"
     },
-    "importance": "optional"
+    "importance": "optional",
+    "validation": {
+      "kind": "free_text",
+      "max_length": 2000
+    }
   },
   {
     "id": "demands",
@@ -72,6 +90,11 @@
       "processed_value": "",
       "status": "raw"
     },
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "free_text",
+      "min_length": 10,
+      "max_length": 1500
+    }
   }
 ]

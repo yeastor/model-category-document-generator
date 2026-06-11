@@ -6,7 +6,12 @@
     "input_type": "text",
     "required": true,
     "placeholder": "Введите фамилию",
-    "importance": "required"
+    "importance": "required",
+    "validation": {
+      "kind": "ru_name",
+      "min_length": 2,
+      "max_length": 40
+    }
   },
   {
     "id": "first_name",
@@ -15,7 +20,12 @@
     "input_type": "text",
     "required": true,
     "placeholder": "Введите имя",
-    "importance": "required"
+    "importance": "required",
+    "validation": {
+      "kind": "ru_name",
+      "min_length": 2,
+      "max_length": 40
+    }
   },
   {
     "id": "middle_name",
@@ -24,7 +34,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "Введите отчество",
-    "importance": "optional"
+    "importance": "optional",
+    "validation": {
+      "kind": "ru_name",
+      "min_length": 2,
+      "max_length": 40
+    }
   },
   {
     "id": "birth_date",
@@ -33,7 +48,10 @@
     "input_type": "date",
     "required": false,
     "placeholder": "дд.мм.гггг",
-    "importance": "optional"
+    "importance": "optional",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "address",
@@ -42,7 +60,12 @@
     "input_type": "text",
     "required": true,
     "placeholder": "город, улица, дом, квартира, индекс",
-    "importance": "required"
+    "importance": "required",
+    "validation": {
+      "kind": "address",
+      "min_length": 10,
+      "max_length": 250
+    }
   },
   {
     "id": "phone",
@@ -50,8 +73,16 @@
     "type": "profile",
     "input_type": "tel",
     "required": true,
-    "placeholder": "+7 000 000-00-00",
-    "importance": "required"
+    "placeholder": "+7(___)___-__-__ только цифры",
+    "importance": "required",
+    "validation": {
+      "kind": "ru_phone",
+      "exact_digits": 10,
+      "mask": "+7(___)___-__-__ только цифры",
+      "stored_digits": 10,
+      "allow_phone": true,
+      "max_phone_count": 1
+    }
   },
   {
     "id": "email",
@@ -60,7 +91,14 @@
     "input_type": "email",
     "required": false,
     "placeholder": "Введите email",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "email",
+      "min_length": 5,
+      "max_length": 120,
+      "allow_email": true,
+      "max_email_count": 1
+    }
   },
   {
     "id": "passport_series",
@@ -69,7 +107,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "4 цифры",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "passport_series",
+      "exact_digits": 4,
+      "mask": "____"
+    }
   },
   {
     "id": "passport_number",
@@ -78,7 +121,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "6 цифр",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "passport_number",
+      "exact_digits": 6,
+      "mask": "______"
+    }
   },
   {
     "id": "passport_issued_by",
@@ -87,7 +135,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "Название органа, выдавшего паспорт",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "org_name",
+      "min_length": 5,
+      "max_length": 250
+    }
   },
   {
     "id": "passport_issued_date",
@@ -96,7 +149,10 @@
     "input_type": "date",
     "required": false,
     "placeholder": "дд.мм.гггг",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "date"
+    }
   },
   {
     "id": "passport_department_code",
@@ -104,8 +160,13 @@
     "type": "profile",
     "input_type": "text",
     "required": false,
-    "placeholder": "000-000",
-    "importance": "recommended"
+    "placeholder": "___-___ только цифры",
+    "importance": "recommended",
+    "validation": {
+      "kind": "passport_department_code",
+      "exact_digits": 6,
+      "mask": "___-___ только цифры"
+    }
   },
   {
     "id": "driver_license",
@@ -114,7 +175,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "серия и номер водительского удостоверения",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 6,
+      "max_length": 20
+    }
   },
   {
     "id": "vehicle_plate",
@@ -123,7 +189,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "например: А000АА777",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "vehicle_plate",
+      "min_length": 5,
+      "max_length": 12
+    }
   },
   {
     "id": "vehicle_model",
@@ -132,7 +203,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "например: Kia Rio",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 80
+    }
   },
   {
     "id": "vehicle_sts",
@@ -141,7 +217,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "серия и номер свидетельства о регистрации",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 6,
+      "max_length": 20
+    }
   },
   {
     "id": "osago_policy",
@@ -150,7 +231,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "серия и номер полиса ОСАГО",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "document_number",
+      "min_length": 6,
+      "max_length": 30
+    }
   },
   {
     "id": "mobile_device_model",
@@ -159,7 +245,12 @@
     "input_type": "text",
     "required": false,
     "placeholder": "например: iPhone 15, Samsung Galaxy",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "short_text",
+      "min_length": 2,
+      "max_length": 80
+    }
   },
   {
     "id": "mobile_device_imei",
@@ -168,6 +259,11 @@
     "input_type": "text",
     "required": false,
     "placeholder": "IMEI или серийный номер, если известен",
-    "importance": "recommended"
+    "importance": "recommended",
+    "validation": {
+      "kind": "imei_or_serial",
+      "min_length": 5,
+      "max_length": 40
+    }
   }
 ]

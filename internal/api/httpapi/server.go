@@ -3,10 +3,13 @@ package httpapi
 import (
 	"encoding/json"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
+	"time"
 
 	"model-category-document-generator/internal/config"
 	"model-category-document-generator/internal/domain"
@@ -17,10 +20,11 @@ type Server struct {
 	cfg       *config.Config
 	generator *usecase.Generator
 	logger    *slog.Logger
+	limiter   *rateLimiter
 }
 
 func NewServer(cfg *config.Config, generator *usecase.Generator, logger *slog.Logger) *Server {
-	return &Server{cfg: cfg, generator: generator, logger: logger}
+	return &Server{cfg: cfg, generator: generator, logger: logger, limiter: newRateLimiter(30, time.Minute)}
 }
 
 func (s *Server) Handler() http.Handler {
@@ -59,6 +63,11 @@ func (s *Server) template(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
+	if !s.limiter.allow(clientIP(r)) {
+		writeJSON(w, http.StatusTooManyRequests, map[string]interface{}{"ok": false, "error": "too many requests"})
+		return
+	}
+	r.Body = http.MaxBytesReader(w, r.Body, 256<<10)
 	var request domain.GenerateRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		writeJSON(w, http.StatusBadRequest, map[string]interface{}{"ok": false, "error": "invalid json"})
@@ -108,4 +117,57 @@ func logMiddleware(logger *slog.Logger, next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 		logger.Info("request", "method", r.Method, "path", r.URL.Path, "remote", r.RemoteAddr)
 	})
+}
+
+type rateLimiter struct {
+	mu       sync.Mutex
+	limit    int
+	window   time.Duration
+	requests map[string][]time.Time
+}
+
+func newRateLimiter(limit int, window time.Duration) *rateLimiter {
+	return &rateLimiter{limit: limit, window: window, requests: map[string][]time.Time{}}
+}
+
+func (l *rateLimiter) allow(key string) bool {
+	now := time.Now()
+	cutoff := now.Add(-l.window)
+
+	l.mu.Lock()
+	defer l.mu.Unlock()
+
+	entries := l.requests[key]
+	kept := entries[:0]
+	for _, entry := range entries {
+		if entry.After(cutoff) {
+			kept = append(kept, entry)
+		}
+	}
+	if len(kept) >= l.limit {
+		l.requests[key] = kept
+		return false
+	}
+	l.requests[key] = append(kept, now)
+	return true
+}
+
+func clientIP(r *http.Request) string {
+	for _, header := range []string{"X-Forwarded-For", "X-Real-IP"} {
+		value := strings.TrimSpace(r.Header.Get(header))
+		if value == "" {
+			continue
+		}
+		if comma := strings.Index(value, ","); comma >= 0 {
+			value = strings.TrimSpace(value[:comma])
+		}
+		if parsed := net.ParseIP(value); parsed != nil {
+			return parsed.String()
+		}
+	}
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		return r.RemoteAddr
+	}
+	return host
 }
