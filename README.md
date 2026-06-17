@@ -995,3 +995,106 @@ fill_later -> линия short/medium/long
 ```
 
 Это позволит спокойно добавлять новые документы и категории без переписывания логики формы.
+
+## Final API Contracts
+
+The document generator exposes the final MVP API contract intended for Laravel/Inertia/Vue integration.
+
+### Endpoints
+
+```text
+GET  /health
+GET  /api/document-templates
+GET  /api/document-templates/{template_id}
+POST /api/documents
+GET  /api/documents/{document_id}/status
+GET  /api/documents/{document_id}/download
+GET  /api/documents/{document_id}/preview
+```
+
+Old prototype endpoints `/api/bootstrap`, `/api/templates/{id}`, `/api/generate`, and `/generated/{file}` are not part of the public contract anymore.
+
+### Create Document
+
+```http
+POST /api/documents
+Content-Type: application/json
+```
+
+```json
+{
+  "template_id": "dps_prosecutor_complaint_v1",
+  "format": "pdf",
+  "user_id": "123",
+  "fields": {
+    "last_name": "Иванов",
+    "first_name": "Иван",
+    "phone": "9167777777",
+    "incident_date": {
+      "value": "2026-06-17",
+      "status": "filled"
+    },
+    "incident_time": {
+      "value": "12:30",
+      "status": "filled"
+    },
+    "circumstances": {
+      "raw_value": "Описание фактов по делу.",
+      "processed_value": "",
+      "status": "raw"
+    }
+  }
+}
+```
+
+Success response:
+
+```json
+{
+  "ok": true,
+  "document_id": "dps_prosecutor_complaint_v1-2026-06-17T10-00-00Z",
+  "status": "ready",
+  "template_id": "dps_prosecutor_complaint_v1",
+  "format": "pdf",
+  "file_name": "dps_prosecutor_complaint_v1-2026-06-17T10-00-00Z.pdf",
+  "download_url": "/api/documents/dps_prosecutor_complaint_v1-2026-06-17T10-00-00Z/download",
+  "html_preview_url": "/api/documents/dps_prosecutor_complaint_v1-2026-06-17T10-00-00Z/preview"
+}
+```
+
+Validation error response:
+
+```json
+{
+  "ok": false,
+  "error": "Заполните поле или выберите один из вариантов ниже",
+  "fields": ["incident_time"]
+}
+```
+
+### Local API Check
+
+PowerShell example:
+
+```powershell
+cd C:\Users\mujlo\Documents\Codex\model-category-document-generator
+go run ./cmd/document-generator
+```
+
+In another PowerShell window:
+
+```powershell
+curl.exe http://localhost:4177/health
+curl.exe http://localhost:4177/api/document-templates
+curl.exe http://localhost:4177/api/document-templates/dps_prosecutor_complaint_v1
+```
+
+Generate TXT:
+
+```powershell
+$body = '{"template_id":"dps_prosecutor_complaint_v1","format":"txt","fields":{"incident_date":{"value":"2026-06-17","status":"filled"},"incident_time":{"value":"12:30","status":"filled"},"location":{"value":"г. Москва","status":"filled"},"circumstances":{"raw_value":"Описание фактов по делу.","processed_value":"","status":"raw"}}}'
+$response = curl.exe -s -X POST http://localhost:4177/api/documents -H "Content-Type: application/json" --data-raw $body | ConvertFrom-Json
+$response
+curl.exe "http://localhost:4177/api/documents/$($response.document_id)/status"
+curl.exe -L "http://localhost:4177/api/documents/$($response.document_id)/download" -o generated-test.txt
+```

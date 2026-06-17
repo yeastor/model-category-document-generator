@@ -101,21 +101,26 @@ type RenderContext struct {
 }
 
 type GenerateRequest struct {
-	TemplateID string                 `json:"templateId"`
-	Format     string                 `json:"format"`
-	AIMode     string                 `json:"aiMode"`
-	Fields     map[string]interface{} `json:"fields"`
+	TemplateID       string                 `json:"template_id"`
+	LegacyTemplateID string                 `json:"templateId,omitempty"`
+	Format           string                 `json:"format"`
+	AIMode           string                 `json:"ai_mode,omitempty"`
+	LegacyAIMode     string                 `json:"aiMode,omitempty"`
+	UserID           string                 `json:"user_id,omitempty"`
+	Fields           map[string]interface{} `json:"fields"`
 }
 
 type GenerateResponse struct {
 	OK               bool                   `json:"ok"`
-	TemplateID       string                 `json:"templateId,omitempty"`
+	DocumentID       string                 `json:"document_id,omitempty"`
+	Status           string                 `json:"status,omitempty"`
+	TemplateID       string                 `json:"template_id,omitempty"`
 	Format           string                 `json:"format,omitempty"`
-	FileName         string                 `json:"fileName,omitempty"`
-	DownloadURL      string                 `json:"downloadUrl,omitempty"`
-	HTMLPreviewURL   string                 `json:"htmlPreviewUrl,omitempty"`
-	NormalizedFields map[string]interface{} `json:"normalizedFields,omitempty"`
-	IntegrationHint  map[string]string      `json:"integrationHint,omitempty"`
+	FileName         string                 `json:"file_name,omitempty"`
+	DownloadURL      string                 `json:"download_url,omitempty"`
+	HTMLPreviewURL   string                 `json:"html_preview_url,omitempty"`
+	NormalizedFields map[string]interface{} `json:"normalized_fields,omitempty"`
+	IntegrationHint  map[string]string      `json:"integration_hint,omitempty"`
 	Error            string                 `json:"error,omitempty"`
 	Fields           []string               `json:"fields,omitempty"`
 }

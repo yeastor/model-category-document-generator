@@ -83,8 +83,11 @@ func (g *Generator) Bootstrap() (domain.BootstrapResponse, error) {
 		CaseStatuses:  []string{"filled", "unknown", "skip", "fill_later", "approximate"},
 		IntegrationHint: map[string]string{
 			"whereToLinkField": "where_to[].document_link",
-			"futureEndpoint":   "/documents/generate/{template_id}",
-			"currentEndpoint":  "/api/generate",
+			"templates":        "GET /api/document-templates",
+			"template":         "GET /api/document-templates/{template_id}",
+			"create":           "POST /api/documents",
+			"status":           "GET /api/documents/{document_id}/status",
+			"download":         "GET /api/documents/{document_id}/download",
 		},
 	}, nil
 }
@@ -95,6 +98,9 @@ func (g *Generator) Template(templateID string) (domain.Template, error) {
 
 func (g *Generator) Generate(request domain.GenerateRequest) (domain.GenerateResponse, int, error) {
 	templateID := strings.TrimSpace(request.TemplateID)
+	if templateID == "" {
+		templateID = strings.TrimSpace(request.LegacyTemplateID)
+	}
 	if templateID == "" {
 		templateID = "pps_police_chief_complaint_v1"
 	}
@@ -133,7 +139,8 @@ func (g *Generator) Generate(request domain.GenerateRequest) (domain.GenerateRes
 		}, 422, nil
 	}
 
-	context := prepareRenderContext(template, entities, profile, request.Fields, request.AIMode == "legal")
+	aiMode := firstNonEmpty(request.AIMode, request.LegacyAIMode)
+	context := prepareRenderContext(template, entities, profile, request.Fields, aiMode == "legal")
 	moderationFields := mergeMaps(profile, request.Fields)
 	violations, err := g.moderation.Moderate(moderationFields)
 	if err != nil {
@@ -181,16 +188,18 @@ func (g *Generator) Generate(request domain.GenerateRequest) (domain.GenerateRes
 
 	return domain.GenerateResponse{
 		OK:               true,
+		DocumentID:       baseName,
+		Status:           "ready",
 		TemplateID:       template.ID,
 		Format:           format,
 		FileName:         outputFileName,
-		DownloadURL:      "/generated/" + outputFileName,
-		HTMLPreviewURL:   "/generated/" + htmlFileName,
+		DownloadURL:      "/api/documents/" + baseName + "/download",
+		HTMLPreviewURL:   "/api/documents/" + baseName + "/preview",
 		NormalizedFields: context.NormalizedFields,
 		IntegrationHint: map[string]string{
 			"where_to_link_id": template.LinkID,
-			"endpoint":         "/documents/generate/" + template.ID,
-			"templateId":       template.ID,
+			"endpoint":         "/api/documents",
+			"template_id":      template.ID,
 		},
 	}, 200, nil
 }

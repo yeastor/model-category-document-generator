@@ -684,7 +684,7 @@ function renderProfileFields() {
 }
 
 async function selectTemplate(templateId) {
-  const response = await fetch(`/api/templates/${encodeURIComponent(templateId)}`);
+  const response = await fetch(`/api/document-templates/${encodeURIComponent(templateId)}`);
   selectedTemplate = await response.json();
 
   templateTitle.textContent = selectedTemplate.name;
@@ -819,13 +819,13 @@ form.addEventListener("submit", async (event) => {
       throw new Error(PROFANITY_ERROR);
     }
 
-    const response = await fetch("/api/generate", {
+    const response = await fetch("/api/documents", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        templateId: selectedTemplate.id,
+        template_id: selectedTemplate.id,
         format: formData.get("format"),
-        aiMode: formData.get("aiMode"),
+        ai_mode: formData.get("aiMode"),
         fields,
       }),
     });
@@ -840,9 +840,9 @@ form.addEventListener("submit", async (event) => {
 
     statusNode.textContent = "Готово";
     result.innerHTML = `
-      <p>Файл создан: <a href="${data.downloadUrl}" target="_blank" rel="noreferrer">${data.fileName}</a></p>
-      <p>HTML-превью: <a href="${data.htmlPreviewUrl}" target="_blank" rel="noreferrer">посмотреть</a></p>
-      <p>Будущий endpoint: <code>${data.integrationHint.endpoint}</code></p>
+      <p>Файл создан: <a href="${data.download_url}" target="_blank" rel="noreferrer">${data.file_name}</a></p>
+      <p>HTML-превью: <a href="${data.html_preview_url}" target="_blank" rel="noreferrer">посмотреть</a></p>
+      <p>Document ID: <code>${data.document_id}</code></p>
     `;
   } catch (error) {
     statusNode.textContent = "Ошибка";
@@ -851,7 +851,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 async function init() {
-  const response = await fetch("/api/bootstrap");
+  const response = await fetch("/api/document-templates");
   bootstrap = await response.json();
   renderTemplateSelect();
   await selectTemplate(bootstrap.templates[0].id);

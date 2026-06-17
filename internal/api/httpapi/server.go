@@ -30,10 +30,10 @@ func NewServer(cfg *config.Config, generator *usecase.Generator, logger *slog.Lo
 func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health", s.health)
-	mux.HandleFunc("GET /api/bootstrap", s.bootstrap)
-	mux.HandleFunc("GET /api/templates/", s.template)
-	mux.HandleFunc("POST /api/generate", s.generate)
-	mux.HandleFunc("GET /generated/", s.generated)
+	mux.HandleFunc("GET /api/document-templates", s.documentTemplates)
+	mux.HandleFunc("GET /api/document-templates/", s.documentTemplate)
+	mux.HandleFunc("POST /api/documents", s.createDocument)
+	mux.HandleFunc("GET /api/documents/", s.documentAction)
 	mux.HandleFunc("/", s.static)
 	return logMiddleware(s.logger, mux)
 }
@@ -42,18 +42,18 @@ func (s *Server) health(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]bool{"ok": true})
 }
 
-func (s *Server) bootstrap(w http.ResponseWriter, _ *http.Request) {
+func (s *Server) documentTemplates(w http.ResponseWriter, _ *http.Request) {
 	response, err := s.generator.Bootstrap()
 	if err != nil {
-		s.logger.Error("bootstrap failed", "error", err)
+		s.logger.Error("document templates failed", "error", err)
 		writeJSON(w, http.StatusInternalServerError, map[string]interface{}{"ok": false, "error": err.Error()})
 		return
 	}
 	writeJSON(w, http.StatusOK, response)
 }
 
-func (s *Server) template(w http.ResponseWriter, r *http.Request) {
-	templateID := strings.TrimPrefix(r.URL.Path, "/api/templates/")
+func (s *Server) documentTemplate(w http.ResponseWriter, r *http.Request) {
+	templateID := strings.TrimPrefix(r.URL.Path, "/api/document-templates/")
 	template, err := s.generator.Template(templateID)
 	if err != nil {
 		writeJSON(w, http.StatusNotFound, map[string]interface{}{"ok": false, "error": err.Error()})
@@ -62,7 +62,7 @@ func (s *Server) template(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, template)
 }
 
-func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
+func (s *Server) createDocument(w http.ResponseWriter, r *http.Request) {
 	if !s.limiter.allow(clientIP(r)) {
 		writeJSON(w, http.StatusTooManyRequests, map[string]interface{}{"ok": false, "error": "too many requests"})
 		return
@@ -83,9 +83,65 @@ func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, status, response)
 }
 
-func (s *Server) generated(w http.ResponseWriter, r *http.Request) {
-	fileName := filepath.Base(r.URL.Path)
-	http.ServeFile(w, r, filepath.Join(s.cfg.OutputDir, fileName))
+func (s *Server) documentAction(w http.ResponseWriter, r *http.Request) {
+	parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/api/documents/"), "/")
+	if len(parts) != 2 || parts[0] == "" {
+		http.NotFound(w, r)
+		return
+	}
+	documentID := filepath.Base(parts[0])
+	action := parts[1]
+	switch action {
+	case "status":
+		s.documentStatus(w, documentID)
+	case "download":
+		s.documentDownload(w, r, documentID, false)
+	case "preview":
+		s.documentDownload(w, r, documentID, true)
+	default:
+		http.NotFound(w, r)
+	}
+}
+
+func (s *Server) documentStatus(w http.ResponseWriter, documentID string) {
+	if _, ok := s.findDocumentFile(documentID, false); ok {
+		writeJSON(w, http.StatusOK, map[string]string{"document_id": documentID, "status": "ready"})
+		return
+	}
+	if _, ok := s.findDocumentFile(documentID, true); ok {
+		writeJSON(w, http.StatusOK, map[string]string{"document_id": documentID, "status": "processing"})
+		return
+	}
+	writeJSON(w, http.StatusNotFound, map[string]string{"document_id": documentID, "status": "expired"})
+}
+
+func (s *Server) documentDownload(w http.ResponseWriter, r *http.Request, documentID string, htmlPreview bool) {
+	filePath, ok := s.findDocumentFile(documentID, htmlPreview)
+	if !ok {
+		writeJSON(w, http.StatusNotFound, map[string]interface{}{"ok": false, "error": "document not found"})
+		return
+	}
+	http.ServeFile(w, r, filePath)
+}
+
+func (s *Server) findDocumentFile(documentID string, htmlPreview bool) (string, bool) {
+	if documentID != filepath.Base(documentID) {
+		return "", false
+	}
+	if htmlPreview {
+		filePath := filepath.Join(s.cfg.OutputDir, documentID+".html")
+		if _, err := os.Stat(filePath); err == nil {
+			return filePath, true
+		}
+		return "", false
+	}
+	for _, extension := range []string{".pdf", ".docx", ".txt"} {
+		filePath := filepath.Join(s.cfg.OutputDir, documentID+extension)
+		if _, err := os.Stat(filePath); err == nil {
+			return filePath, true
+		}
+	}
+	return "", false
 }
 
 func (s *Server) static(w http.ResponseWriter, r *http.Request) {
