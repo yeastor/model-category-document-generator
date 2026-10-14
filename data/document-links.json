@@ -82,5 +82,11 @@
     "aliases": [
       "Заявление о преступлении в Следственный комитет Российской Федерации"
     ]
+  },
+  {
+    "id": "dps_deadline_restoration_motion",
+    "where_to_text": "Ходатайство о восстановлении срока обжалования постановления при установленном пропуске",
+    "template_id": "dps_deadline_restoration_motion_v1",
+    "route": "/documents/dps_deadline_restoration_motion_v1"
   }
 ]
